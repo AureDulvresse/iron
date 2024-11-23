@@ -2,7 +2,7 @@
 
 namespace Forge\Database\Iron\Relationship;
 
-use Forge\Database\Iron\Interfaces\HasMany;
+use Forge\Database\Iron\Contracts\HasMany;
 use Forge\Database\Iron\Model;
 
 class HasManyRelationship implements HasMany

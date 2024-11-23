@@ -2,7 +2,7 @@
 
 namespace Forge\Database\Iron\Relationship;
 
-use Forge\Database\Iron\Interfaces\HasOne;
+use Forge\Database\Iron\Contracts\HasOne;
 use Forge\Database\Iron\Model;
 
 class HasOneRelationship implements HasOne

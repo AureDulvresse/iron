@@ -2,7 +2,7 @@
 
 namespace Forge\Database\Iron\Relationship;
 
-use Forge\Database\Iron\Interfaces\RelationshipInterface;
+use Forge\Database\Iron\Contracts\RelationshipInterface;
 use Forge\Database\Iron\Model;
 
 class BelongsToRelationship implements RelationshipInterface
