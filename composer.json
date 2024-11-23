@@ -13,7 +13,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Tinyforge\\Iron\\": "src/"
+            "Tinyforge\\Database\\Iron\\": "src/"
         }
     },
     "authors": [
