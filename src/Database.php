@@ -4,6 +4,7 @@ namespace Forge\Database;
 
 use PDO;
 use PDOException;
+use TinyForge\Common\Config;
 
 class Database
 {
@@ -20,11 +21,13 @@ class Database
     private function __construct()
     {
         // Charger les variables d'environnement
-        $driver = $_ENV['DB_DRIVER'] ?? 'mysql';
-        $host = $_ENV['DB_HOST'] ?? '';
-        $name = $_ENV['DB_NAME'] ?? null;
-        $user = $_ENV['DB_USER'] ?? null;
-        $pass = $_ENV['DB_PASS'] ?? null;
+        // Récupérer les valeurs de configuration
+        $driver = Config::get('DB_DRIVER', 'mysql');
+        $host = Config::get('DB_HOST');
+        $name = Config::get('DB_NAME');
+        $user = Config::get('DB_USER');
+        $pass = Config::get('DB_PASS');
+        $charset = 'utf8';
 
         // Vérification des variables essentielles
         if (empty($name) || empty($user) || empty($pass)) {
