@@ -80,78 +80,84 @@ class Migration
         $stmt = $this->db->query("SELECT migration, executed_at FROM migrations_history ORDER BY executed_at");
         $results = $stmt->fetchAll();
 
-        $this->logger->info("Status des migrations :");
+        $this->logger->log("info", "Status des migrations :");
         if (empty($results)) {
-            $this->logger->info("Aucune migration exécutée.");
+            $this->logger->log("Aucune migration exécutée.");
         } else {
             foreach ($results as $row) {
-                $this->logger->info("- {$row['migration']} exécutée le {$row['executed_at']}");
+                $this->logger->log("- {$row['migration']} exécutée le {$row['executed_at']}");
             }
         }
     }
+
+    protected function handleRunMigration($migrationInstance, $migrationName): void
+    {
+        if (!$this->isMigrationExecuted($migrationName)) {
+            $this->logger->log("info", "Exécution de la migration...");
+            $migrationInstance->up();
+            $this->markMigrationAsExecuted($migrationName);
+        }
+    }
+
+    protected function handleRollbackMigration($migrationInstance, $migrationName): void
+    {
+        if ($this->isMigrationExecuted($migrationName)) {
+            $this->logger->log("info", "Rollback de la migration...");
+            $migrationInstance->down();
+            $this->deleteMigrationAsExecuted($migrationName);
+        }
+    }
+
+    protected function handleRefreshMigration($migrationInstance, $migrationName): void
+    {
+        if ($this->isMigrationExecuted($migrationName)) {
+            $this->logger->log("info", "Refresh de la migration...");
+            $migrationInstance->down();
+            $this->deleteMigrationAsExecuted($migrationName);
+        }
+        $migrationInstance->up();
+        $this->markMigrationAsExecuted($migrationName);
+    }
+
+    protected function handleFreshMigration($migrationInstance, $migrationName): void
+    {
+        $this->logger->log("info", "Fresh migration...");
+        $this->dropMigrationHistory();
+        $migrationInstance->down();
+        $this->initializeMigrationHistory();
+        $migrationInstance->up();
+        $this->markMigrationAsExecuted($migrationName);
+    }
+
 
     /**
      * Exécute les migrations.
      */
     public function migrate($type = "run")
     {
+        
         foreach (glob(__DIR__ . '/../../database/migrations/*.php') as $migrationFile) {
             $migrationInstance = require $migrationFile;
 
             try {
-                if (is_object($migrationInstance)) {
+                if (is_object($migrationInstance) && $migrationInstance instanceof MigrationInterface) {
                     $migrationName = basename($migrationFile, '.php');
 
                     switch ($type) {
                         case "run":
-                            if (!$this->isMigrationExecuted($migrationName)) {
-                                $this->logger("info", "Exécution des migrations...");
-                                $migrationInstance->up();
-                                $this->markMigrationAsExecuted($migrationName);
-                            }
+                            $this->handleRunMigration($migrationInstance, $migrationName);
                             break;
 
                         case "rollback":
-                            if ($this->isMigrationExecuted($migrationName)) {
-                                $this->logger->info("Rollback de la migration...");
-                                $migrationInstance->down();
-                                $this->deleteMigrationAsExecuted($migrationName);
-                            }
+                            $this->handleRollbackMigration($migrationInstance, $migrationName);
                             break;
 
                         case "refresh":
-                            if ($this->isMigrationExecuted($migrationName)) {
-                                $this->logger->info("Refresh de la migration...");
-                                $migrationInstance->down();
-                                $this->deleteMigrationAsExecuted($migrationName);
-                            }
-                            $migrationInstance->up();
-                            $this->markMigrationAsExecuted($migrationName);
+                            $this->handleRefreshMigration($migrationInstance, $migrationName);
                             break;
 
                         case "fresh":
-                            $this->logger->info("Fresh migration...");
-                            $this->dropMigrationHistory();
-                            $migrationInstance->down();
-                            $this->initializeMigrationHistory();
-                            $migrationInstance->up();
-                            $this->markMigrationAsExecuted($migrationName);
-                            break;
-
-                        case "down":
-                            $this->logger->info("Suppression de toutes les migrations...");
-                            $this->dropMigrationHistory();
-                            $migrationInstance->down();
-                            break;
-
-                        case "reset":
-                            $this->logger->info("Réinitialisation des migrations...");
-                            if ($this->isMigrationExecuted($migrationName)) {
-                                $migrationInstance->down();
-                                $this->deleteMigrationAsExecuted($migrationName);
-                            }
-                            $migrationInstance->up();
-                            $this->markMigrationAsExecuted($migrationName);
+                            $this->handleFreshMigration($migrationInstance, $migrationName);
                             break;
 
                         case "status":
@@ -159,13 +165,13 @@ class Migration
                             break;
 
                         default:
-                            $this->logger->error("Commande non reconnue : $type");
+                            $this->logger->log("error", "Commande non reconnue : $type");
                             break;
                     }
 
-                    $this->logger->success("Migration terminée : " . $this->logger->bold($migrationName));
+                    $this->logger->log("success", "Migration terminée : " . $this->logger->bold($migrationName));
                 } else {
-                    $this->logger->error("Migration non trouvée ou non valide dans $migrationFile.");
+                    $this->logger->log("error", "Migration non valide ou non trouvée dans $migrationFile.");
                 }
             } catch (\Exception $e) {
                 $this->logger->error("Erreur lors de l'exécution de la migration $migrationFile : " . $e->getMessage());
