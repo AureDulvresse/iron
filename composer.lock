@@ -1142,16 +1142,16 @@
         },
         {
             "name": "tinyforge/cli",
-            "version": "1.1.0",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AureDulvresse/tinyforge-cli.git",
-                "reference": "29a4a65920c64bfcf962573860ccc936898650bd"
+                "reference": "963b39e7476c9f43818a413da95720b3e806ae7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AureDulvresse/tinyforge-cli/zipball/29a4a65920c64bfcf962573860ccc936898650bd",
-                "reference": "29a4a65920c64bfcf962573860ccc936898650bd",
+                "url": "https://api.github.com/repos/AureDulvresse/tinyforge-cli/zipball/963b39e7476c9f43818a413da95720b3e806ae7e",
+                "reference": "963b39e7476c9f43818a413da95720b3e806ae7e",
                 "shasum": ""
             },
             "require": {
@@ -1180,9 +1180,9 @@
             "description": "CLI for TinyForge framework",
             "support": {
                 "issues": "https://github.com/AureDulvresse/tinyforge-cli/issues",
-                "source": "https://github.com/AureDulvresse/tinyforge-cli/tree/1.1.0"
+                "source": "https://github.com/AureDulvresse/tinyforge-cli/tree/1.1.2"
             },
-            "time": "2024-11-24T20:38:36+00:00"
+            "time": "2024-11-24T20:56:36+00:00"
         },
         {
             "name": "tinyforge/common",

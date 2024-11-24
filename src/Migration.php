@@ -82,10 +82,10 @@ class Migration
 
         $this->logger->log("info", "Status des migrations :");
         if (empty($results)) {
-            $this->logger->log("Aucune migration exécutée.");
+            $this->logger->log("success", "Aucune migration exécutée.");
         } else {
             foreach ($results as $row) {
-                $this->logger->log("- {$row['migration']} exécutée le {$row['executed_at']}");
+                $this->logger->log("success" , "- {$row['migration']} exécutée le {$row['executed_at']}");
             }
         }
     }
@@ -174,7 +174,7 @@ class Migration
                     $this->logger->log("error", "Migration non valide ou non trouvée dans $migrationFile.");
                 }
             } catch (\Exception $e) {
-                $this->logger->error("Erreur lors de l'exécution de la migration $migrationFile : " . $e->getMessage());
+                $this->logger->log("error", "Erreur lors de l'exécution de la migration $migrationFile : " . $e->getMessage());
             }
         }
     }

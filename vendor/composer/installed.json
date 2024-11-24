@@ -1181,24 +1181,24 @@
         },
         {
             "name": "tinyforge/cli",
-            "version": "1.1.0",
-            "version_normalized": "1.1.0.0",
+            "version": "1.1.2",
+            "version_normalized": "1.1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AureDulvresse/tinyforge-cli.git",
-                "reference": "29a4a65920c64bfcf962573860ccc936898650bd"
+                "reference": "963b39e7476c9f43818a413da95720b3e806ae7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AureDulvresse/tinyforge-cli/zipball/29a4a65920c64bfcf962573860ccc936898650bd",
-                "reference": "29a4a65920c64bfcf962573860ccc936898650bd",
+                "url": "https://api.github.com/repos/AureDulvresse/tinyforge-cli/zipball/963b39e7476c9f43818a413da95720b3e806ae7e",
+                "reference": "963b39e7476c9f43818a413da95720b3e806ae7e",
                 "shasum": ""
             },
             "require": {
                 "monolog/monolog": "^3.8",
                 "symfony/console": "^7.1"
             },
-            "time": "2024-11-24T20:38:36+00:00",
+            "time": "2024-11-24T20:56:36+00:00",
             "bin": [
                 "bin/forge"
             ],
@@ -1222,7 +1222,7 @@
             "description": "CLI for TinyForge framework",
             "support": {
                 "issues": "https://github.com/AureDulvresse/tinyforge-cli/issues",
-                "source": "https://github.com/AureDulvresse/tinyforge-cli/tree/1.1.0"
+                "source": "https://github.com/AureDulvresse/tinyforge-cli/tree/1.1.2"
             },
             "install-path": "../tinyforge/cli"
         },
