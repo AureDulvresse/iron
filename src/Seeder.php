@@ -2,7 +2,7 @@
 
 namespace Forge\Database;
 
-use Forge\Console\Logger;
+use Forge\CLI\Logger;
 
 abstract class Seeder
 {
